@@ -25,5 +25,12 @@ DATABASES = {
 }
 
 SECRET_KEY = 'secret'
+
+# Local file storage - uncomment if images should be stored locally for development purposes
+#DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+#MEDIA_ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'media')
+#MEDIA_URL = '/media/'
+
+# AWS S3 file storage
 AWS_ACCESS_KEY_ID = 'ABCDEFGHIJ1234567890'
 AWS_SECRET_ACCESS_KEY = '1234567890abcdefghij1234567890abcdefghij'

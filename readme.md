@@ -23,6 +23,8 @@ Markdown Notes is a Django application with an AngularJS front-end.
 5. Create the database with `python manage.py migrate`.
 6. Run the server with `python manage.py runserver`.
 
+If you want to store images locally and not on AWS S3 storage for development purposes, uncomment Local file storage section in the `local_settings.py`.
+
 ###Deployment tools
 
 A crude tool for automatic deployments is available. Install `forever` (`npm install -g forever`) and run `forever start webhooks.js` to have the server redeploy every time there is activity on the GitHub repo.

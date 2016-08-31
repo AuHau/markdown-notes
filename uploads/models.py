@@ -2,14 +2,16 @@ from cStringIO import StringIO
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db import models
 from notes.models import Note
+from django.contrib.auth.models import User
 from PIL import Image as PILImage
 import os
 import urllib2 as urllib
+from django.conf import settings
 
 
 class Image(models.Model):
     note = models.ForeignKey(Note)
-    image = models.ImageField(max_length=255, upload_to='/')
+    image = models.ImageField(max_length=255, upload_to='./')
 
     def save(self, *args, **kwargs):
         max_size = 900  # Don't exceed 900x900
@@ -19,10 +21,14 @@ class Image(models.Model):
 
         super(Image, self).save(*args, **kwargs)
 
-        # Open the original photo
-        img_file = urllib.urlopen(self.image.url)
-        im = StringIO(img_file.read())
-        img = PILImage.open(im)
+        # Open the original photo depending on the filestorage (S3 vs localhost)
+        if settings.DEFAULT_FILE_STORAGE == 'django.core.files.storage.FileSystemStorage':
+            self.image.open(mode='rb')
+            img = PILImage.open(self.image)
+        else:
+            img_file = urllib.urlopen(self.image.url)
+            im = StringIO(img_file.read())
+            img = PILImage.open(im)
 
         # Resize the image if necessary
         width = img.size[0]
@@ -48,5 +54,6 @@ class Image(models.Model):
             temp_handle.seek(0)
 
             # Update the model's ImageField
-            suf = SimpleUploadedFile(os.path.split(self.image.name)[-1].split('.')[0], temp_handle.read(), content_type='image/jpeg')
+            suf = SimpleUploadedFile(os.path.split(self.image.name)[-1].split('.')[0], temp_handle.read(),
+                                     content_type='image/jpeg')
             self.image.save('%s.jpg' % suf.name, suf, save=True)
