@@ -10,7 +10,8 @@ from django.conf import settings
 
 
 class Image(models.Model):
-    note = models.ForeignKey(Note)
+    note = models.ForeignKey(Note, null=True)
+    user = models.ForeignKey(User)
     image = models.ImageField(max_length=255, upload_to='./')
 
     def save(self, *args, **kwargs):
