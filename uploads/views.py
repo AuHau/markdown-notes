@@ -1,3 +1,5 @@
+from tastypie.authentication import ApiKeyAuthentication
+
 from models import Image
 from forms import ImageUploadForm
 from django.http import HttpResponse, HttpResponseForbidden
@@ -24,6 +26,9 @@ def upload_image(request):
     if request.method == 'POST':
         form = ImageUploadForm(request.POST, request.FILES)
         if form.is_valid():
+            authentication = ApiKeyAuthentication()
+            authentication.is_authenticated(request)
+
             img = Image()
             img.user = request.user
             img.note_id = form.cleaned_data['note']
