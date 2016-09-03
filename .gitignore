@@ -7,4 +7,11 @@ files/
 markdown_notes/staticfiles/
 markdown_notes/media/
 markdown_notes/local_settings.py
+
+# Dependencies managers
 frontend/bower_components
+node_modules
+
+# Mobile folders
+mobile/platforms/
+mobile/plugins/

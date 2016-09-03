@@ -1,0 +1,25 @@
+{
+  "name": "markdown-notes",
+  "version": "1.0.0",
+  "description": "Mardown online editor",
+  "main": "~",
+  "scripts": {
+    "test": "~"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicbou/markdown-notes.git"
+  },
+  "keywords": [
+    "markdown"
+  ],
+  "author": "Nicolas Bouliane",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/nicbou/markdown-notes/issues"
+  },
+  "homepage": "http://www.markdownnotes.com",
+  "devDependencies": {
+    "cordova": "^6.3.1"
+  }
+}
