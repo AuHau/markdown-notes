@@ -20,6 +20,16 @@
   },
   "homepage": "http://www.markdownnotes.com",
   "devDependencies": {
-    "cordova": "^6.3.1"
+    "cordova": "^6.3.1",
+    "gulp": "^3.9.1",
+    "gulp-add-src": "^0.2.0",
+    "gulp-concat": "^2.6.0",
+    "gulp-flatten": "^0.3.1",
+    "gulp-load-plugins": "^1.2.4",
+    "gulp-notify": "^2.2.0",
+    "gulp-sass": "^2.3.2",
+    "gulp-sourcemaps": "^1.6.0",
+    "gulp-uglify": "^2.0.0",
+    "main-bower-files": "^2.13.1"
   }
 }

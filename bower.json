@@ -9,6 +9,22 @@
     "moment-timezone": ">=0.4.0",
     "codemirror": ">=5.9.0",
     "angular-modal-service": "~0.10.1",
-    "angular-base64": "^2.0.5"
+    "angular-base64": "^2.0.5",
+    "jstimezonedetect": "^1.0.5",
+    "angular-route": "^1.5.8",
+    "angular-resource": "^1.5.8",
+    "angular": "^1.5.8",
+    "MathJax": "^2.6.1",
+    "Ionicons": "ionicons#^2.0.1",
+    "roboto": "https://google-fonts.azurewebsites.net/googleFonts/robotoFonts?family=Roboto",
+    "robotoMono": "https://google-fonts.azurewebsites.net/googleFonts/robotoMonoFonts?family=Roboto+Mono"
+  },
+  "overrides": {
+    "highlightjs": {
+      "main": [
+        "highlight.pack.js",
+        "styles/github.css"
+      ]
+    }
   }
 }
