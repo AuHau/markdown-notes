@@ -3,6 +3,7 @@ var gulpLoadPlugins = require('gulp-load-plugins');
 var plugins = gulpLoadPlugins();
 
 var mainBowerFiles = require('main-bower-files');
+var merge = require('merge-stream');
 
 var sassOptions = {
   errLogToConsole: true,
@@ -10,6 +11,7 @@ var sassOptions = {
 };
 
 // TODO: Figure out MathJAX bundling
+// TODO: Implement nhAnnotate to use Uglify
 
 gulp.task('mobile:js:libs', function () {
     return gulp.src(mainBowerFiles('**/*.js'))
@@ -20,14 +22,21 @@ gulp.task('mobile:js:libs', function () {
 });
 
 gulp.task('mobile:js:src', function () {
-    return gulp.src(['frontend/js/**/*.js', 'mobile/www/js/**/*.js'])
+    var jsSrc = gulp.src(['frontend/js/modules.js', 'frontend/js/**/*.js', 'mobile/www/js/**/*.js'])
         .pipe(plugins.ignore.exclude('*-config.js'))
         .pipe(plugins.sourcemaps.init())
         .pipe(plugins.concat('main.js'))
+        //.pipe(plugins.uglify())
+        //.pipe(plugins.ngAnnotate())
         .pipe(plugins.sourcemaps.write())
-        .pipe(plugins.uglify())
         .pipe(gulp.dest('mobile/www/build/'))
         .pipe(plugins.notify('JS build finished!'));
+
+    var htmlTemplates = gulp.src('frontend/js/views/*.html')
+        .pipe(plugins.flatten())
+        .pipe(gulp.dest('mobile/www/build/views/'));
+
+    return merge(jsSrc, htmlTemplates);
 
 });
 
@@ -63,7 +72,7 @@ gulp.task('mobile:fonts', function() {
 });
 
 
-gulp.task('mobile:assets', ['mobile:js:libs', 'mobile:js:src', 'mobile:css', 'mobile:img', 'mobile:fonts']);
+gulp.task('mobile', ['mobile:js:libs', 'mobile:js:src', 'mobile:css', 'mobile:img', 'mobile:fonts']);
 
 gulp.task('default', ['mobile:assets'], function () {
     gulp.watch('frontend/css/**', ['mobile:css']);
