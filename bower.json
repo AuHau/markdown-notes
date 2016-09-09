@@ -15,15 +15,27 @@
     "angular-resource": "^1.5.8",
     "angular": "^1.5.8",
     "MathJax": "^2.6.1",
-    "Ionicons": "ionicons#^2.0.1",
-    "roboto": "https://google-fonts.azurewebsites.net/googleFonts/robotoFonts?family=Roboto",
-    "robotoMono": "https://google-fonts.azurewebsites.net/googleFonts/robotoMonoFonts?family=Roboto+Mono"
+    "Ionicons": "ionicons#^2.0.1"
   },
   "overrides": {
     "highlightjs": {
       "main": [
         "highlight.pack.js",
         "styles/github.css"
+      ]
+    },
+    "codemirror": {
+      "main": [
+        "lib/codemirror.js",
+        "lib/codemirror.css",
+        "mode/markdown/markdown.js",
+        "mode/stex/stex.js",
+        "addon/mode/overlay.js",
+        "addon/mode/multiplex.js",
+        "addon/fold/foldcode.js",
+        "addon/fold/foldgutter.js",
+        "addon/fold/markdown-fold.js",
+        "addon/display/placeholder.js"
       ]
     }
   }

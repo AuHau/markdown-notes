@@ -1,6 +1,5 @@
 var gulp = require('gulp');
-var gulpLoadPlugins = require('gulp-load-plugins');
-var plugins = gulpLoadPlugins();
+var plugins = require('gulp-load-plugins')();
 
 var mainBowerFiles = require('main-bower-files');
 var merge = require('merge-stream');
@@ -8,6 +7,10 @@ var merge = require('merge-stream');
 var sassOptions = {
   errLogToConsole: true,
   outputStyle: 'expanded'
+};
+
+var googleWebFontsOptions = {
+    cssFilename: 'googleFonts.css'
 };
 
 // TODO: Figure out MathJAX bundling
@@ -50,7 +53,7 @@ gulp.task('mobile:css', function () {
         .pipe(plugins.sourcemaps.write())
         .pipe(plugins.addSrc.prepend(mainBowerFiles('**/*.css')))
         .pipe(plugins.concat('main.css'))
-        .pipe(gulp.dest('mobile/www/build/'))
+        .pipe(gulp.dest('mobile/www/build/css/'))
         .pipe(plugins.notify('CSS build finished!'));
 });
 
@@ -64,11 +67,17 @@ gulp.task('mobile:img', function () {
 });
 
 gulp.task('mobile:fonts', function() {
-    var fonts = ['ttf', 'woff', 'eot', 'svg'].join(',');
+    var fontTypes = ['ttf', 'woff', 'eot', 'svg'].join(',');
 
-    return gulp.src(mainBowerFiles('**/*.{'+ fonts +'}'))
+    var fonts = gulp.src(mainBowerFiles('**/*.{'+ fontTypes +'}'))
         .pipe(plugins.flatten())
-        .pipe(gulp.dest('mobile/www/build/fonts/'))
+        .pipe(gulp.dest('mobile/www/build/fonts/'));
+
+    var googleFonts = gulp.src('frontend/css/fonts.list')
+        .pipe(plugins.googleWebfonts(googleWebFontsOptions))
+        .pipe(gulp.dest('mobile/www/build/fonts/'));
+
+    return merge(fonts, googleFonts);
 });
 
 

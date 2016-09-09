@@ -3,7 +3,7 @@
  */
 var servicesModule = angular.module('notes.service');
 
-servicesModule.factory('$authService', function (ModalService, $timeout, $q, $http, $base64, $window, DEMO_MODE) {
+servicesModule.factory('$authService', function (ModalService, $timeout, $q, $http, $base64, $window, DEMO_MODE, MOBILE_MODE) {
     var USER_ROUTE = '/api/v1/user/',
         SIGNUP_ROUTE = '/api/v1/create_user/',
         PASSWORD_RECOVERY_ROUTE = '/api/v1/password_recovery/';
@@ -133,8 +133,9 @@ servicesModule.factory('$authService', function (ModalService, $timeout, $q, $ht
                 return fakePromise();
             }
 
+            var path = (MOBILE_MODE ? '/build/views/' : '/static/js/views/');
             return ModalService.showModal({
-                templateUrl: "/static/js/views/modal.html",
+                templateUrl: path + "modal.html",
                 controller: "ModalCtrl",
                 inputs : {
                     'formType' : formType

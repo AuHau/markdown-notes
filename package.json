@@ -25,6 +25,7 @@
     "gulp-add-src": "^0.2.0",
     "gulp-concat": "^2.6.0",
     "gulp-flatten": "^0.3.1",
+    "gulp-google-webfonts": "0.0.14",
     "gulp-ignore": "^2.0.1",
     "gulp-load-plugins": "^1.2.4",
     "gulp-ng-annotate": "^2.0.0",

@@ -1,8 +1,9 @@
 //Toggles full screen mode in supported browsers
-angular.module('notes.ui').directive("noteMenuItem", function ($timeout, $document) {
+angular.module('notes.ui').directive("noteMenuItem", function ($timeout, $document, MOBILE_MODE) {
+    var path = (MOBILE_MODE ? '/build/views/' : '/static/js/views/');
     return {
         restrict: "A",
-        templateUrl: '/static/js/views/noteMenuItem.html',
+        templateUrl: path + 'noteMenuItem.html',
         link: function (scope, element, attrs) {
             element.attr('draggable', true);
 
