@@ -21,6 +21,7 @@ gulp.task('mobile:js:libs', function () {
 
 gulp.task('mobile:js:src', function () {
     return gulp.src(['frontend/js/**/*.js', 'mobile/www/js/**/*.js'])
+        .pipe(plugins.ignore.exclude('*-config.js'))
         .pipe(plugins.sourcemaps.init())
         .pipe(plugins.concat('main.js'))
         .pipe(plugins.sourcemaps.write())
@@ -66,5 +67,7 @@ gulp.task('mobile:assets', ['mobile:js:libs', 'mobile:js:src', 'mobile:css', 'mo
 
 gulp.task('default', ['mobile:assets'], function () {
     gulp.watch('frontend/css/**', ['mobile:css']);
+    gulp.watch('mobile/www/css/**', ['mobile:css']);
     gulp.watch('frontend/js/**', ['mobile:js:src']);
+    gulp.watch('mobile/www/js/**', ['mobile:js:src']);
 });
