@@ -6,7 +6,10 @@ dev.db
 files/
 markdown_notes/staticfiles/
 markdown_notes/media/
+
+# Configurations
 markdown_notes/local_settings.py
+frontend/js/__env.js
 
 # Dependencies managers
 frontend/bower_components
