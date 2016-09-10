@@ -1,12 +1,15 @@
 var gulp = require('gulp');
 var plugins = require('gulp-load-plugins')();
+var appRoot = require('app-root-path');
+var notifier = require('node-notifier');
 
 var mainBowerFiles = require('main-bower-files');
 var merge = require('merge-stream');
+var exec = require('child_process').exec;
 
 var sassOptions = {
-  errLogToConsole: true,
-  outputStyle: 'expanded'
+    errLogToConsole: true,
+    outputStyle: 'expanded'
 };
 
 var googleWebFontsOptions = {
@@ -47,8 +50,8 @@ gulp.task('mobile:css', function () {
     return gulp.src('mobile/www/css/main.scss')
         .pipe(plugins.sourcemaps.init())
         .pipe(plugins.sass(sassOptions)
-             .on('error', plugins.notify.onError("CSS build failed!"))
-             .on('error', plugins.sass.logError)
+            .on('error', plugins.notify.onError("CSS build failed!"))
+            .on('error', plugins.sass.logError)
         )
         .pipe(plugins.sourcemaps.write())
         .pipe(plugins.addSrc.prepend(mainBowerFiles('**/*.css')))
@@ -66,10 +69,10 @@ gulp.task('mobile:img', function () {
         .pipe(gulp.dest('mobile/www/build/img/'));
 });
 
-gulp.task('mobile:fonts', function() {
+gulp.task('mobile:fonts', function () {
     var fontTypes = ['ttf', 'woff', 'eot', 'svg'].join(',');
 
-    var fonts = gulp.src(mainBowerFiles('**/*.{'+ fontTypes +'}'))
+    var fonts = gulp.src(mainBowerFiles('**/*.{' + fontTypes + '}'))
         .pipe(plugins.flatten())
         .pipe(gulp.dest('mobile/www/build/fonts/'));
 
@@ -80,12 +83,40 @@ gulp.task('mobile:fonts', function() {
     return merge(fonts, googleFonts);
 });
 
-
-gulp.task('mobile', ['mobile:js:libs', 'mobile:js:src', 'mobile:css', 'mobile:img', 'mobile:fonts']);
-
-gulp.task('default', ['mobile:assets'], function () {
-    gulp.watch('frontend/css/**', ['mobile:css']);
-    gulp.watch('mobile/www/css/**', ['mobile:css']);
-    gulp.watch('frontend/js/**', ['mobile:js:src']);
-    gulp.watch('mobile/www/js/**', ['mobile:js:src']);
+gulp.task('mobile:watch', function () {
+    gulp.watch('frontend/css/**/*', ['mobile:css']);
+    gulp.watch('mobile/www/css/**/*', ['mobile:css']);
+    gulp.watch('frontend/js/**/*', ['mobile:js:src']);
+    gulp.watch('mobile/www/js/**/*', ['mobile:js:src']);
 });
+
+gulp.task('mobile:assets', ['mobile:js:libs', 'mobile:js:src', 'mobile:css', 'mobile:img', 'mobile:fonts']);
+
+gulp.task('mobile:browser', ['mobile:assets'], function (cb) {
+    exec('python manage.py runserver', function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+        if (err) cb(err);
+    });
+
+    process.chdir('mobile/');
+    exec('cordova run browser -- --port=8001', function (err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+        if (err) cb(err);
+    });
+
+    process.chdir('../');
+    gulp.watch('frontend/css/**/*', ['mobile:css']);
+    gulp.watch('mobile/www/css/**/*', ['mobile:css']);
+    gulp.watch('frontend/js/**/*', ['mobile:js:src']);
+    gulp.watch('mobile/www/js/**/*', ['mobile:js:src']);
+    gulp.watch('mobile/www/build/*', function () {
+        process.chdir(appRoot + '/mobile');
+        exec('cordova prepare browser', function (err, stdout, stderr) {
+            notifier.notify({ title: 'Cordova', message: 'Browser files updated!' });
+        });
+    });
+});
+
+gulp.task('default', ['mobile:assets', 'mobile:watch']);
