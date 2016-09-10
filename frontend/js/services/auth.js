@@ -153,11 +153,13 @@ servicesModule.factory('$authService', function (ModalService, $timeout, $q, $ht
  * HTTPRequestInterceptor which includes the ApiKey into all API requests
  * when the user is logged in.
  */
-servicesModule.factory('httpRequestInterceptor', function ($injector) {
+servicesModule.factory('httpRequestInterceptor', function ($injector, __env) {
     return {
         request: function (config) {
-            var $authService = $injector.get('$authService');
+            if (config.url.indexOf('/api') == 0)
+                config.url = __env.apiUrl + config.url;
 
+            var $authService = $injector.get('$authService');
             if ($authService.isLoggedIn()) {
                 config.headers['Authorization'] = 'ApiKey ' + $authService.getApiKey();
             }
