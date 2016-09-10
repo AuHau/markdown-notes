@@ -1,4 +1,4 @@
-angular.module('notes').controller('NotesCtrl', function NotesCtrl($scope, $window, $notesService, $notebooksService, $authService, Uploader, $routeParams, $timeout, $interval, $location, $q, $document, $messageService, $newsService, $rootScope, debounce, DEMO_MODE){
+angular.module('notes').controller('NotesCtrl', function NotesCtrl($scope, $window, $notesService, $notebooksService, $authService, Uploader, $routeParams, $timeout, $interval, $location, $q, $document, $messageService, $newsService, $rootScope, debounce, MOBILE_MODE){
 
     $scope.currentNoteIndex = -1;
     $scope.messages = [];
@@ -55,7 +55,7 @@ angular.module('notes').controller('NotesCtrl', function NotesCtrl($scope, $wind
     $scope.MODE_INPUT_ONLY = 'input-only';
     $scope.MODE_OUTPUT_ONLY = 'output-only';
     $scope.MODE_HYBRID = 'hybrid';
-    $scope.displayMode = $scope.MODE_HYBRID;
+    $scope.displayMode = (MOBILE_MODE ? $scope.MODE_OUTPUT_ONLY : $scope.MODE_HYBRID);
 
     //Controller setup
     function init(){

@@ -1,6 +1,6 @@
 //Toggles full screen mode in supported browsers
 angular.module('notes.ui').directive("noteMenuItem", function ($timeout, $document, MOBILE_MODE) {
-    var path = (MOBILE_MODE ? '/build/views/' : '/static/js/views/');
+    var path = (MOBILE_MODE ? 'build/views/' : '/static/js/views/');
     return {
         restrict: "A",
         templateUrl: path + 'noteMenuItem.html',

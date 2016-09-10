@@ -1,4 +1,4 @@
-angular.module('notes').controller('ModalCtrl', function ($scope, close, $authService, formType) {
+angular.module('notes').controller('ModalCtrl', function ($scope, close, $authService, formType, MOBILE_MODE) {
 
     // Form types: login, signup, passwordRecovery, accountSettings
     $scope.formType = (formType != undefined ? formType : 'login');
@@ -12,7 +12,7 @@ angular.module('notes').controller('ModalCtrl', function ($scope, close, $authSe
         $scope.msgType = undefined;
         $scope.errorFields = undefined;
 
-        $authService.login($scope.formData.username, $scope.formData.password, $scope.formData.rememberMe)
+        $authService.login($scope.formData.username, $scope.formData.password, MOBILE_MODE || $scope.formData.rememberMe)
             .then(function (apiKey) {
                 close(apiKey);
             })

@@ -112,7 +112,10 @@ gulp.task('mobile:browser', ['mobile:assets'], function (cb) {
     gulp.watch('frontend/js/**/*', ['mobile:js:src']);
     gulp.watch('mobile/www/js/**/*', ['mobile:js:src']);
     gulp.watch('mobile/www/build/*', function () {
-        process.chdir(appRoot + '/mobile');
+        exec('pwd', function (err, stdout, stderr) {
+            console.log(stdout);
+        });
+        process.chdir(appRoot.toString() + '/mobile');
         exec('cordova prepare browser', function (err, stdout, stderr) {
             notifier.notify({ title: 'Cordova', message: 'Browser files updated!' });
         });

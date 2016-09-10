@@ -133,7 +133,7 @@ servicesModule.factory('$authService', function (ModalService, $timeout, $q, $ht
                 return fakePromise();
             }
 
-            var path = (MOBILE_MODE ? '/build/views/' : '/static/js/views/');
+            var path = (MOBILE_MODE ? 'build/views/' : '/static/js/views/');
             return ModalService.showModal({
                 templateUrl: path + "modal.html",
                 controller: "ModalCtrl",
