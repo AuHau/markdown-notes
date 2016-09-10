@@ -21,3 +21,14 @@ angular.module('notes.ui').directive("webOnly", function (MOBILE_MODE, $animate)
         }
     };
 });
+
+angular.module('notes.ui').directive("webOnlyDisable", function (MOBILE_MODE, $animate) {
+    return {
+        restrict: "A",
+        link: function (scope, element, attrs) {
+            if (MOBILE_MODE) {
+                element.attr("disabled", "disabled");
+            }
+        }
+    };
+});
