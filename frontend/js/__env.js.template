@@ -3,6 +3,14 @@
   window.__env = window.__env || {};
 
   // API url
-  window.__env.apiUrl = 'http://localhost:8000';
+  // -------
+  // Hack for cordova development - when launched in browser platform it will use localhost
+  // and when launched on mobile device it will use local ip of your PC for API requests.
+  if(window.location.href.startsWith('http://localhost')){
+      window.__env.apiUrl = 'http://localhost:8000';
+  }else{
+      window.__env.apiUrl = 'http://10.42.0.1:8000'; // Put your local IP
+  }
+
 
 }(this));
