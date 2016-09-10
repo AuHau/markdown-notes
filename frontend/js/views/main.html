@@ -19,15 +19,15 @@
     </div>
     <header>
         <nav id="menu-bar"><!--
-            --><a id="btn-mode-input" title="Show only the editor window"  ng-click="toggleMode(MODE_INPUT_ONLY)">Editor</a><!--
+            --><a id="btn-mode-input" title="Show only the editor window"  ng-click="toggleMode(MODE_INPUT_ONLY)" web-only>Editor</a><!--
             --><span class="separator"></span><!--
-            --><a id="btn-mode-hybrid" title="Show the editor and preview window"  ng-click="toggleMode(MODE_HYBRID)">Editor + Preview</a><!--
+            --><a id="btn-mode-hybrid" title="Show the editor and preview window"  ng-click="toggleMode(MODE_HYBRID)" web-only>Editor + Preview</a><!--
             --><span class="separator"></span><!--
-            --><a id="btn-mode-output" title="Show only the preview window"  ng-click="toggleMode(MODE_OUTPUT_ONLY)">Preview</a><!--
+            --><a id="btn-mode-output" title="Show only the preview window"  ng-click="toggleMode(MODE_OUTPUT_ONLY)" web-only>Preview</a><!--
             --><span class="separator"></span><!--
-            --><a title="Share this note" ng-click="shareWindowOpen = true"><i class="icon ion-ios-redo"></i> Share</a><!--
+            --><a title="Share this note" ng-click="shareWindowOpen = true" web-only><i class="icon ion-ios-redo"></i> Share</a><!--
             --><span class="separator"></span><!--
-            --><a id="btn-mode-fullscreen" title="Toggle full screen mode" fullscreen><i class="icon ion-arrow-expand"></i></a>
+            --><a id="btn-mode-fullscreen" title="Toggle full screen mode" fullscreen web-only><i class="icon ion-arrow-expand"></i></a>
         </nav>
         <a href="" id="btn-menu" ng-click="sideMenuOpen = !sideMenuOpen" ng-class="{'open': sideMenuOpen}">Menu</a>
         <div id="note-title-wrapper">
@@ -37,12 +37,12 @@
     <div id="main">
         <nav id="side-menu" ng-class="{'open': sideMenuOpen}">
             <ul>
-                <li class="new">
+                <li class="new" web-only>
                     <a ng-click="createNote(true)">
                         <i class="icon ion-ios-compose-outline"></i>Create a note
                     </a>
                 </li>
-                <li new-notebook-menu-item></li>
+                <li new-notebook-menu-item web-only></li>
                 <li class="separator"></li>
                 <li note-menu-item ng-repeat="note in notesService.notes.active | orderBy:noteRanker | filter:{notebook_uri: null}"></li>
                 <li class="separator" ng-show="notebooksService.notebooks.length > 0"></li>
