@@ -26,4 +26,5 @@
     <plugin name="cordova-plugin-ace" spec="~0.1.2" />
     <engine name="android" spec="~5.2.2" />
     <engine name="browser" spec="~4.1.0" />
+    <hook type="before_build" src="scripts/prePrepareGulpBuild.js" />
 </widget>
