@@ -69,6 +69,8 @@ SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
 CSRF_COOKIE_NAME = "XSRF-TOKEN"  # For AngularJS compatibility
 WSGI_APPLICATION = 'markdown_notes.wsgi.application'
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_URLS_REGEX = r'^/api/.*$'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -86,6 +88,7 @@ INSTALLED_APPS = (
     'compressor',
     'authentication',
     'django_libsass',
+    'corsheaders',
 )
 
 STATICFILES_DIRS = (
@@ -109,6 +112,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'notes.middleware.AngularCSRFRename',
