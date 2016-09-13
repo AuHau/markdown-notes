@@ -11,20 +11,22 @@ angular.module('notes.service')
 
                 Uploader.uploadMobileImage(photoUri)
                     .then(function () {
-                        //Delete the "uploading" message
-                        $messageService.remove(message);
+                        $messageService.replace(message, {
+                            message: 'Image successfully uploaded!',
+                            class: $messageService.classes.SUCCESS,
+                            timeout: 14000
+                        });
 
                         // TODO: Some special event for Mobile upload image?
                         //ga('send', 'event', 'Notes', 'Upload', 'Image upload');
                     })
                     .catch(function (error) {
                         console.log(error);
-                        error = {
-                            message: 'An error occured while uploading the images.',
+                        $messageService.replace(message, {
+                            message: 'An error occurred while uploading the images.',
                             class: $messageService.classes.ERROR,
-                            timeout: 5000,
-                        };
-                        $messageService.replace(message, error);
+                            timeout: 5000
+                        });
                     });
 
             }

@@ -5,6 +5,7 @@ angular.module('notes.service')
                 INFO: 'info',
                 WARNING: 'warning',
                 ERROR: 'error',
+                SUCCESS: 'success',
             },
             messages: [],
             add: function(message) {
