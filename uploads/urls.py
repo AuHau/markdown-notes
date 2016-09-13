@@ -1,5 +1,6 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
+from . import views
 
-urlpatterns = patterns('',
-    url(r'^image/$', 'uploads.views.upload_image', name='upload_image'),
-)
+urlpatterns = [
+    url(r'^image/$', views.upload_image, name='upload_image'),
+]

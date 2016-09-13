@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
@@ -10,6 +10,7 @@ from authentication.api import *
 from notes.views import NotesView, SharedNoteRedirectView
 from tastypie.api import Api
 from uploads.views import S3RedirectView
+from django.contrib.auth import views as auth_views
 
 # API urls
 v1_api = Api(api_name='v1')
@@ -22,7 +23,7 @@ v1_api.register(CreateUserResource())
 v1_api.register(UserResource())
 v1_api.register(PasswordRecoveryResource())
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^api/', include(v1_api.urls)),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^upload/', include('uploads.urls')),
@@ -34,9 +35,9 @@ urlpatterns = patterns('',
     url(r'^\+(?P<public_id>[a-z0-9]+)/$', SharedNoteRedirectView.as_view(), name='shared_note'),
 
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-        'django.contrib.auth.views.password_reset_confirm', name='password_reset_confirm',
+        auth_views.password_reset_confirm, name='password_reset_confirm',
         kwargs={'template_name': 'auth/password_reset_confirm.html'}),
-    url(r'^reset/done/$', 'django.contrib.auth.views.password_reset_complete',
+    url(r'^reset/done/$', auth_views.password_reset_complete,
         name='password_reset_complete',
         kwargs={'template_name': 'auth/password_reset_complete.html'}),
-) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
