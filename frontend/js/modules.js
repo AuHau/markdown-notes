@@ -12,3 +12,5 @@ if(window){
 }
 
 angular.module('notes.config').constant('__env', __env);
+
+angular.module('notes').value('csrfToken', undefined);

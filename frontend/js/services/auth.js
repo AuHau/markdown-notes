@@ -39,6 +39,8 @@ servicesModule.factory('$authService', function (ModalService, $timeout, $q, $ht
                         $window.localStorage.apiKey = apiKey;
                     }
 
+                    angular.module('notes').value('csrfToken', response.data.csrf_token);
+
                     return apiKey;
                 });
         },
@@ -120,6 +122,23 @@ servicesModule.factory('$authService', function (ModalService, $timeout, $q, $ht
          */
         isLoggedIn: function () {
             return this.getApiKey() !== undefined;
+        },
+
+        /**
+         * Method for retrieving CsrfToken from backend.
+         * @returns {*}
+         */
+        retrieveCsrfToken: function () {
+            if(!this.isLoggedIn()){
+                return this.modal();
+            }
+
+            return $http.get(USER_ROUTE)
+                .then(function (response) {
+                    var csrfToken = response.data.csrf_token;
+                    angular.module('notes').value('csrfToken', csrfToken);
+                    return csrfToken;
+                });
         },
 
         /**

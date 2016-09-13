@@ -1,7 +1,11 @@
+import json
+
 from django.conf.urls import url
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+from django.http import HttpResponse
+from django.middleware import csrf
 
 from tastypie.authentication import (
     Authentication, ApiKeyAuthentication,
@@ -177,6 +181,17 @@ class UserResource(ModelResource):
             pass
 
         return super(UserResource, self).update_in_place(request, original_bundle, new_data)
+
+    def get_detail(self, request, **kwargs):
+        resp = super(UserResource, self).get_detail(request, **kwargs)
+
+        # Adding CSRF token to login route, for mobile platform
+        # (there is no way how to add CSRF through template to mobile platform)
+        data = json.loads(resp.content)
+        data['csrf_token'] = csrf.get_token(request)
+        data = json.dumps(data)
+
+        return HttpResponse(data, content_type='application/json', status=200)
 
     def authorized_read_list(self, object_list, bundle):
         return object_list.filter(id=bundle.request.user.id).select_related()
