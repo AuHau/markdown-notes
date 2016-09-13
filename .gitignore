@@ -19,3 +19,5 @@ node_modules
 mobile/platforms/
 mobile/plugins/
 mobile/www/build/
+mobile/www/chcp*
+mobile/.chcpenv

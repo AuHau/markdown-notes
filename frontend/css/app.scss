@@ -117,7 +117,7 @@
             height: $topBarHeight;
             margin: 0 0 -10px;
         }
-        a{ 
+        a{
             cursor: pointer;
             display: inline-block;
             padding: 0 $marginSmall;
@@ -202,7 +202,7 @@
                                 font:inherit;
                                 vertical-align:top;
                                 flex:1 1;
-                                
+
                                 &::-webkit-input-placeholder{
                                     color: $colorTextMuted!important;
                                 }
@@ -251,7 +251,7 @@
 
                             .actions{
                                 display:block;
-                            } 
+                            }
                         }
 
                         .separator{
@@ -341,7 +341,7 @@
             left:50%;
             padding:$marginNormal;
             z-index:10;
-            
+
             // Typographic grid test:
             // background-size: 20px 20px;
             // background-image: repeating-linear-gradient(0deg, #ccc, #ccc 1px, transparent 1px, transparent 40px),repeating-linear-gradient(-90deg, #fff, #fff 1px, transparent 1px, transparent 20px);
@@ -502,6 +502,7 @@
             &.error{background: $colorErrorBackground}
             &.warning{background: $colorWarningBackground}
             &.info{background: $colorInfoBackground}
+            &.success{background: $colorSuccess}
 
             .icon{
                 font-size:25px;
@@ -850,10 +851,10 @@ body.drag-over{
 @media print{
     *{-webkit-transition:none!important;-moz-transition:none!important;-ms-transition:none!important;}
     #input, #btn-mode-fullscreen, #btn-menu, #side-menu, #menu-bar, #note-title-wrapper, .modal, #markdownnotes-wrapper header{display:none!important;}
-    
+
     #markdownnotes-wrapper{
         overflow: visible!important;
-        
+
         #main{
             height:auto;
             top:0;
@@ -899,7 +900,7 @@ body.drag-over{
     #markdownnotes-wrapper{
         overflow:visible;
         color:$colorTextHeavy;
-        
+
         #note-title-wrapper{
             width:100%;border-bottom:1px solid $colorBorderLight;
 
@@ -915,7 +916,7 @@ body.drag-over{
                 }
             }
         }
-        
+
         #btn-menu.open{width:45px!important;}
 
         #side-menu{
@@ -976,4 +977,15 @@ body.drag-over{
             text-align: center;
         }
     }
+}
+
+@media (max-width: 400px) {
+  #markdownnotes-wrapper {
+    #messages {
+      min-width: 0;
+      max-width: 96%;
+      width: auto;
+      white-space: nowrap;
+    }
+  }
 }

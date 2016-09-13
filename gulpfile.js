@@ -86,7 +86,7 @@ gulp.task('mobile:fonts', function () {
     return merge(fonts, googleFonts);
 });
 
-gulp.task('mobile:watch', function () {
+gulp.task('mobile:watch', ['mobile:assets'] ,function () {
     gulp.watch('frontend/css/**/*', ['mobile:css']);
     gulp.watch('mobile/www/css/**/*', ['mobile:css']);
     gulp.watch('frontend/js/**/*', ['mobile:js:src']);
