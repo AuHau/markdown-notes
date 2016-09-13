@@ -26,5 +26,8 @@
     <plugin name="cordova-plugin-ace" spec="~0.1.2" />
     <engine name="android" spec="~5.2.2" />
     <engine name="browser" spec="~4.1.0" />
-    <hook type="before_build" src="scripts/prePrepareGulpBuild.js" />
+    <hook src="scripts/prePrepareGulpBuild.js" type="before_build" />
+    <plugin name="cordova-plugin-camera" spec="~2.2.0" />
+    <plugin name="cordova-plugin-file" spec="~4.2.0" />
+    <plugin name="cordova-plugin-file-transfer" spec="~1.5.1" />
 </widget>

@@ -17,7 +17,7 @@ var googleWebFontsOptions = {
 };
 
 // TODO: Figure out MathJAX bundling
-// TODO: Implement nhAnnotate to use Uglify
+// TODO: Implement ngAnnotate to use Uglify
 
 gulp.task('mobile:js:libs', function () {
     return gulp.src(mainBowerFiles('**/*.js'))
@@ -30,6 +30,7 @@ gulp.task('mobile:js:libs', function () {
 gulp.task('mobile:js:src', function () {
     var jsSrc = gulp.src(['frontend/js/modules.js', 'frontend/js/**/*.js', 'mobile/www/js/**/*.js'])
         .pipe(plugins.ignore.exclude('*-config.js'))
+        .pipe(plugins.ignore.exclude('__env.js'))
         .pipe(plugins.sourcemaps.init())
         .pipe(plugins.concat('main.js'))
         //.pipe(plugins.uglify())
@@ -38,11 +39,13 @@ gulp.task('mobile:js:src', function () {
         .pipe(gulp.dest('mobile/www/build/'))
         .pipe(plugins.notify('JS build finished!'));
 
-    var htmlTemplates = gulp.src('frontend/js/views/*.html')
-        .pipe(plugins.flatten())
+    var htmlTemplates = gulp.src('frontend/js/views/**/*.html')
         .pipe(gulp.dest('mobile/www/build/views/'));
 
-    return merge(jsSrc, htmlTemplates);
+    var env = gulp.src('frontend/js/env.js')
+        .pipe(gulp.dest('mobile/www/build/'));
+
+    return merge(jsSrc, htmlTemplates, env);
 
 });
 
@@ -92,6 +95,19 @@ gulp.task('mobile:watch', function () {
 
 gulp.task('mobile:assets', ['mobile:js:libs', 'mobile:js:src', 'mobile:css', 'mobile:img', 'mobile:fonts']);
 
+gulp.task('mobile:prepare-browser', function (cb) {
+    //exec('pwd', function (err, stdout, stderr) {
+    //       console.log(stdout);
+    //   });
+
+    console.log('Prepare called!');
+    process.chdir(appRoot.toString() + '/mobile');
+    var prcs = exec('cordova prepare browser', function (err, stdout, stderr) {
+        notifier.notify({title: 'Cordova', message: 'Browser files updated!'});
+        cb()
+    });
+});
+
 gulp.task('mobile:browser', ['mobile:assets'], function (cb) {
     exec('python manage.py runserver', function (err, stdout, stderr) {
         console.log(stdout);
@@ -111,15 +127,7 @@ gulp.task('mobile:browser', ['mobile:assets'], function (cb) {
     gulp.watch('mobile/www/css/**/*', ['mobile:css']);
     gulp.watch('frontend/js/**/*', ['mobile:js:src']);
     gulp.watch('mobile/www/js/**/*', ['mobile:js:src']);
-    gulp.watch('mobile/www/build/*', function () {
-        exec('pwd', function (err, stdout, stderr) {
-            console.log(stdout);
-        });
-        process.chdir(appRoot.toString() + '/mobile');
-        exec('cordova prepare browser', function (err, stdout, stderr) {
-            notifier.notify({ title: 'Cordova', message: 'Browser files updated!' });
-        });
-    });
+    gulp.watch('mobile/www/build/**/*', ['mobile:prepare-browser']);
 });
 
 gulp.task('default', ['mobile:assets', 'mobile:watch']);
